@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { passwordMatchValidator } from '../shared/passwordMatchValidator.directive';
+import { ValidatorService } from '../services/validator.service';
 
 
 @Component({
@@ -13,13 +13,18 @@ export class RegisterComponent implements OnInit {
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     phone: ['', Validators.required],
-    userName: ['', Validators.required],
+    userName: ['', {
+      validators: [Validators.required],
+      asyncValidators: [this.validatorService.usernameTakenValidator()],
+      updateOn: 'blur'
+    }],
     password: ['', [Validators.required, Validators.minLength(8)]],
     confirmPassword: ['', Validators.required]
-  }, { validator: passwordMatchValidator });
+  }, { validator: this.validatorService.passwordMatchValidator() });
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private validatorService: ValidatorService
   ) { }
 
   ngOnInit() {
@@ -28,8 +33,7 @@ export class RegisterComponent implements OnInit {
   onSubmit() {
     // Validate the username and password with the database
     // Redirect user to Homepage
-    console.log(this.registrationForm.errors);
-    console.log(this.confirmPassword.errors);
+    console.log(this.userName.errors);
   }
 
   get firstName() { return this.registrationForm.get('firstName'); }

@@ -27,7 +27,7 @@
                   <input type="checkbox" formControlName="rememberMe" class="form-check-input" id="exampleCheck1">
                   <label class="form-check-label" for="exampleCheck1">Remember Me</label>
                 </div>
-                <button type="submit" class="btn btn-primary full-width">Log In</button>
+                <button type="submit" class="btn btn-primary full-width" [disabled]="!loginForm.valid">Log In</button>
             </form>
         </div>
         <div class="card-footer text-muted">

@@ -8,6 +8,10 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 
+import { AuthenticationService } from './services/authentication.service';
+import { DatabaseService } from './services/database.service';
+import { ValidatorService } from './services/validator.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +25,11 @@ import { HomeComponent } from './home/home.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    DatabaseService,
+    AuthenticationService,
+    ValidatorService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
