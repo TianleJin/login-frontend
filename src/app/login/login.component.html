@@ -1,29 +1,42 @@
 <div class="wrapper">
     <form class="form-signin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!--Error Banner-->
+        <div *ngIf="this.errorMessage" class="banner alert alert-danger">
+            {{ this.errorMessage }}
+        </div>
+        <!--Heading-->
         <h2 class="form-signin-heading">Login</h2>     
+        <!--Username-->
         <div class="form-group">
             <label for="userName">Username</label>
             <input type="text" class="form-control" formControlName="userName" id="userName" aria-describedby="userName" required>
-        </div>
-        <div *ngIf="userName.invalid && (userName.dirty || userName.touched)" class="alert alert-danger">
-            <div *ngIf="userName.errors.required">
-                Username is required.
+            <div *ngIf="userName.invalid && (userName.dirty || userName.touched)">
+                <div *ngIf="userName.errors.required" class="form-error">
+                    Username is required.
+                </div>
             </div>
         </div>
+        <!--Password-->
         <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" formControlName="password" class="form-control" id="password" required>
-        </div>
-        <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
-            <div *ngIf="password.errors.required">
-                Password is required.
+            <label for="password">Password</label>
+            <input type="password" formControlName="password" class="form-control" id="password" required>
+            <div *ngIf="password.invalid && (password.dirty || password.touched)">
+                <div *ngIf="password.errors.required" class="form-error">
+                    Password is required.
+                </div>
             </div>
         </div>
+        <!--Remember Me-->
         <div class="form-group form-check">
-        <input type="checkbox" formControlName="rememberMe" class="form-check-input" id="exampleCheck1">
-        <label class="form-check-label" for="exampleCheck1">Remember Me</label>
+            <input type="checkbox" formControlName="rememberMe" class="form-check-input" id="exampleCheck1">
+            <label class="form-check-label" for="exampleCheck1">Remember Me</label>
         </div>
-        <button type="submit" class="btn btn-primary full-width" [disabled]="!loginForm.valid">Log In</button>
+        <!--Login Button-->
+        <button type="submit" class="btn btn-primary full-width" [disabled]="!loginForm.valid">
+            <span *ngIf="this.loading" class="spinner-border spinner-border-sm"></span>
+            Login
+        </button>
+        <!--Link-->
         <small id="emailHelp" class="form-text">Haven't got an account? Sign up <a [routerLink]="['/register']">here</a></small>
     </form>
   </div>

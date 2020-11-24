@@ -19,3 +19,8 @@
     font-family: verdana;
     margin-bottom: 30px;
 }
+
+.form-error {
+    color: red;
+    font-size: 12px;
+}
