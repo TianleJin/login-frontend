@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 const baseUrl = "http://localhost:3000";
 
@@ -15,31 +16,37 @@ export class DatabaseService {
 
   getAll(): Observable<any> {
     // get request
-    return this.httpClient.get(`${baseUrl}/users`);
+    return this.httpClient.get(`${baseUrl}/users`)
+    .pipe(catchError(this.handleError));
   }
 
   getOne(username: string) {
     // get request
-    return this.httpClient.get(`${baseUrl}/users/${username}`);
+    return this.httpClient.get(`${baseUrl}/users/${username}`)
+    .pipe(catchError(this.handleError));
   }
 
   create(data: any) {
     // post request
-    this.httpClient.post(`${baseUrl}/users`, data);
+    return this.httpClient.post(`${baseUrl}/users`, data)
+    .pipe(catchError(this.handleError));
   }
 
   update(username: string, data: any) {
     // put request
-    this.httpClient.put(`${baseUrl}/users/${username}`, data);
+    return this.httpClient.put(`${baseUrl}/users/${username}`, data)
+    .pipe(catchError(this.handleError));
   }
 
   delete(username: any) {
-    this.httpClient.delete(`${baseUrl}/users/${username}`);
+    return this.httpClient.delete(`${baseUrl}/users/${username}`)
+    .pipe(catchError(this.handleError));
   }
 
   deleteAll() {
     // delete request
-    this.httpClient.delete(`${baseUrl}/users`);
+    return this.httpClient.delete(`${baseUrl}/users`)
+    .pipe(catchError(this.handleError));
   }
 
   private handleError(error: HttpErrorResponse) {
@@ -54,7 +61,6 @@ export class DatabaseService {
         `body was: ${error.error}`);
     }
     // Return an observable with a user-facing error message.
-    return throwError(
-      'Something bad happened; please try again later.');
-  }
+    return throwError('Something bad happened; please try again later.');
+}
 }

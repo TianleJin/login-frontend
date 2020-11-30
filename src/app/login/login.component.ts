@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { catchError } from 'rxjs/operators';
 import { DatabaseService } from '../services/database.service';
-import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +11,6 @@ import { switchMap } from 'rxjs/operators';
 export class LoginComponent implements OnInit {
   loading: boolean = false;
   message: string = null;
-  success: boolean = false;
   loginForm = this.fb.group({
     userName: ['', Validators.required],
     password: ['', Validators.required],
@@ -31,18 +30,19 @@ export class LoginComponent implements OnInit {
     // Redirect user to Homepage
     this.loading = true;
     this.dbService.getOne(this.userName.value).subscribe((user) => {
+      console.log("User ", user);
       if (user === null) {
         this.message = 'Username does not exist.';
-        this.success = false;
       }
-      else if (user['password'] === this.password.value) {
-        this.message = 'Your login was successful';
-        this.success = true;
+      else if (user['password'] !== this.password.value) {
+        this.message = 'Username or password is incorrect.';
       }
       else {
-        this.message = 'Username or password is incorrect';
-        this.success = false;
+        console.log('Your login was successful.');
       }
+      this.loading = false;
+    }, (err) => {
+      this.message = err;
       this.loading = false;
     })
   }

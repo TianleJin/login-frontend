@@ -1,5 +1,9 @@
 <div class="wrapper">
     <form class="form-register" [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+        <!--Banner-->
+        <div *ngIf="this.message" class="alert alert-danger">
+            {{ this.message }}
+        </div>
         <!--Heading-->
         <h2 class="form-register-heading">Register</h2>
         <!--Firstname-->
@@ -75,7 +79,10 @@
             </div>
         </div>
         <!--Sign Up Button-->
-        <button type="submit" class="btn btn-primary full-width" [disabled]="!registrationForm.valid">Sign Up</button>
+        <button type="submit" class="btn btn-primary full-width" [disabled]="!registrationForm.valid">
+            <span *ngIf="this.loading" class="spinner-border spinner-border-sm"></span>
+            Sign Up
+        </button>
         <!--Link-->
         <small id="emailHelp" class="form-text">Already got an account? Log in <a [routerLink]="['/login']">here</a></small>
     </form>
