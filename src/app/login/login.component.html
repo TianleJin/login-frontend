@@ -1,8 +1,9 @@
 <div class="wrapper">
     <form class="form-signin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <!--Error Banner-->
-        <div *ngIf="this.errorMessage" class="banner alert alert-danger">
-            {{ this.errorMessage }}
+        <!--Banner-->
+        <div *ngIf="this.message">
+            <div *ngIf="this.success" class="alert alert-success"> {{ this.message }} </div>
+            <div *ngIf="!this.success" class="alert alert-danger"> {{ this.message }} </div>
         </div>
         <!--Heading-->
         <h2 class="form-signin-heading">Login</h2>     

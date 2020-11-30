@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { AuthenticationService } from '../services/authentication.service';
-import { ValidatorService } from '../services/validator.service';
+import { DatabaseService } from '../services/database.service';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +10,8 @@ import { ValidatorService } from '../services/validator.service';
 })
 export class LoginComponent implements OnInit {
   loading: boolean = false;
-  errorMessage: string = null;
+  message: string = null;
+  success: boolean = false;
   loginForm = this.fb.group({
     userName: ['', Validators.required],
     password: ['', Validators.required],
@@ -19,7 +20,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthenticationService
+    private dbService: DatabaseService
   ) { }
 
   ngOnInit() {
@@ -29,23 +30,21 @@ export class LoginComponent implements OnInit {
     // Validate the username and password with the database
     // Redirect user to Homepage
     this.loading = true;
-    this.authService.UsernameExist(this.userName.value).subscribe((exist) => {
-      if (!exist) {
-        this.errorMessage = "Username does not exist.";
-        this.loading = false;
-        return;
+    this.dbService.getOne(this.userName.value).subscribe((user) => {
+      if (user === null) {
+        this.message = 'Username does not exist.';
+        this.success = false;
       }
-      this.authService.PasswordMatchUsername(this.userName.value, this.password.value).subscribe((match) => {
-        if (!match) {
-          this.errorMessage = "Username or password is incorrect.";
-          this.loading = false;
-          return;
-        }
-        this.errorMessage = null;
-        this.loading = false;
-        console.log("Success");
-      });
-    });
+      else if (user['password'] === this.password.value) {
+        this.message = 'Your login was successful';
+        this.success = true;
+      }
+      else {
+        this.message = 'Username or password is incorrect';
+        this.success = false;
+      }
+      this.loading = false;
+    })
   }
 
   get userName() { return this.loginForm.get('userName'); }
