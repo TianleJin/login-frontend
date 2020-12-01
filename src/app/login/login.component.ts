@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DatabaseService } from '../services/database.service';
+import { LoginStateService } from '../services/login-state.service';
 
 @Component({
   selector: 'app-login',
@@ -20,10 +21,12 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dbService: DatabaseService,
-    private router: Router
+    private router: Router,
+    private lsService: LoginStateService
   ) { }
 
   ngOnInit() {
+    // this.lsService.getState().subscribe((state) => console.log("Logged In: ", state));
   }
 
   onSubmit() {
@@ -39,6 +42,7 @@ export class LoginComponent implements OnInit {
       }
       else {
         console.log('Your login was successful.');
+        this.lsService.setState(true);
         this.router.navigate(['home', this.userName.value]);
       }
       this.loading = false;

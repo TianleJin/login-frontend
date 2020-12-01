@@ -13,7 +13,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { DatabaseService } from './services/database.service';
 import { ValidatorService } from './services/validator.service';
 import { LoginGuardService } from './services/login-guard.service';
-import { IdentityService } from './services/identity.service';
+import { LoginStateService } from './services/login-state.service';
 
 @NgModule({
   declarations: [
@@ -34,7 +34,7 @@ import { IdentityService } from './services/identity.service';
     AuthenticationService,
     ValidatorService,
     LoginGuardService,
-    IdentityService
+    LoginStateService
   ],
   bootstrap: [AppComponent]
 })
