@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 import { DatabaseService } from '../services/database.service';
 
 @Component({
@@ -19,7 +19,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private dbService: DatabaseService
+    private dbService: DatabaseService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -30,7 +31,6 @@ export class LoginComponent implements OnInit {
     // Redirect user to Homepage
     this.loading = true;
     this.dbService.getOne(this.userName.value).subscribe((user) => {
-      console.log("User ", user);
       if (user === null) {
         this.message = 'Username does not exist.';
       }
@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
       }
       else {
         console.log('Your login was successful.');
+        this.router.navigate(['home', this.userName.value]);
       }
       this.loading = false;
     }, (err) => {
