@@ -24,6 +24,8 @@ export class HomeComponent implements OnInit {
     ).subscribe((data) => {
       this.user = new User(data);
       console.log(this.user);
-    })
+    }, (err) => {
+      console.log(err);
+    });
   }
 }

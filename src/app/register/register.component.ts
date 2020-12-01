@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DatabaseService } from '../services/database.service';
 import { ValidatorService } from '../services/validator.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -28,7 +29,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private validatorService: ValidatorService,
-    private dbService: DatabaseService
+    private dbService: DatabaseService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -41,6 +43,7 @@ export class RegisterComponent implements OnInit {
     this.dbService.create(this.registrationForm.value).subscribe((res) => {
       console.log('Your account has been created.');
       this.loading = false;
+      this.router.navigate(['home', this.userName.value]);
     }, (err) => {
       this.message = err;
       this.loading = false;
