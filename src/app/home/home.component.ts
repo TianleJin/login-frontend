@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DatabaseService } from '../services/database.service';
 import { switchMap } from 'rxjs/operators';
 import { User } from '../shared/user';
@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
   user: User = null;
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private dbService: DatabaseService
   ) { }
 
@@ -27,5 +28,9 @@ export class HomeComponent implements OnInit {
     }, (err) => {
       console.log(err);
     });
+  }
+
+  logout() {
+    this.router.navigate(['login']);
   }
 }
