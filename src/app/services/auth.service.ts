@@ -21,14 +21,14 @@ export class AuthService {
   }
 
   login(userName: string) {
-    localStorage.setItem('isLoggedIn', 'true');  
-    localStorage.setItem('userName', userName);
+    sessionStorage.setItem('isLoggedIn', 'true');  
+    sessionStorage.setItem('userName', userName);
     this.router.navigate(['home']);
   }
 
   logout() {
-    localStorage.setItem('isLoggedIn', 'false');
-    localStorage.removeItem('userName');
+    sessionStorage.setItem('isLoggedIn', 'false');
+    sessionStorage.removeItem('userName');
     this.router.navigate(['login']);
   }
 }

@@ -21,7 +21,7 @@ export class AuthGuardService implements CanActivate {
 
   public isLoggedIn(): boolean {
     let status: boolean;      
-    if (localStorage.getItem('isLoggedIn') == "true") {
+    if (sessionStorage.getItem('isLoggedIn') == "true") {
       status = true;
     }    
     else {      

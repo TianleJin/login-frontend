@@ -16,7 +16,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.dbService.getOne(localStorage.getItem('userName'))
+    this.dbService.getOne(sessionStorage.getItem('userName'))
     .subscribe((data) => {
       this.user = new User(data);
       console.log(this.user);
