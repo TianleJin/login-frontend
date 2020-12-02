@@ -9,10 +9,10 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 
-import { AuthenticationService } from './services/authentication.service';
+import { AuthService } from './services/auth.service';
 import { DatabaseService } from './services/database.service';
 import { ValidatorService } from './services/validator.service';
-import { LoginGuardService } from './services/login-guard.service';
+import { AuthGuardService } from './services/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -30,9 +30,9 @@ import { LoginGuardService } from './services/login-guard.service';
   ],
   providers: [
     DatabaseService,
-    AuthenticationService,
+    AuthService,
     ValidatorService,
-    LoginGuardService,
+    AuthGuardService,
   ],
   bootstrap: [AppComponent]
 })

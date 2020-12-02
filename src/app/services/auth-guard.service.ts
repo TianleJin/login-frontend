@@ -4,7 +4,7 @@ import { CanActivate, ActivatedRouteSnapshot, Router, RouterStateSnapshot } from
 @Injectable({
   providedIn: 'root'
 })
-export class LoginGuardService implements CanActivate {
+export class AuthGuardService implements CanActivate {
 
   constructor(
     private router: Router

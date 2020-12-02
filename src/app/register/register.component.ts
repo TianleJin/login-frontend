@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DatabaseService } from '../services/database.service';
-import { AuthenticationService } from '../services/authentication.service';
+import { AuthService } from '../services/auth.service';
 import { ValidatorService } from '../services/validator.service';
 
 @Component({
@@ -29,7 +29,7 @@ export class RegisterComponent implements OnInit {
     private fb: FormBuilder,
     private validatorService: ValidatorService,
     private dbService: DatabaseService,
-    private authService: AuthenticationService
+    private authService: AuthService
   ) { }
 
   ngOnInit() {

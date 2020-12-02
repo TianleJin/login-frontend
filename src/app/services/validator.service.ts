@@ -2,7 +2,7 @@ import { AsyncValidatorFn, ValidatorFn, ValidationErrors, AbstractControl, FormG
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { AuthenticationService } from '../services/authentication.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +10,7 @@ import { AuthenticationService } from '../services/authentication.service';
 export class ValidatorService {
 
   constructor(
-    private authService: AuthenticationService
+    private authService: AuthService
   ) {}
 
   usernameTakenValidator(): AsyncValidatorFn {

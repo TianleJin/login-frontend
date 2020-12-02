@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DatabaseService } from '../services/database.service';
-import { AuthenticationService } from '../services/authentication.service';
+import { AuthService } from '../services/auth.service';
 import { User } from '../shared/user';
 
 @Component({
@@ -12,7 +12,7 @@ export class HomeComponent implements OnInit {
   user: User;
   constructor(
     private dbService: DatabaseService,
-    private authService: AuthenticationService
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
