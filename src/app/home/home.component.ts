@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { DatabaseService } from '../services/database.service';
-import { LoginStateService } from '../services/login-state.service';
-import { switchMap } from 'rxjs/operators';
+import { AuthenticationService } from '../services/authentication.service';
 import { User } from '../shared/user';
 
 @Component({
@@ -13,33 +11,26 @@ import { User } from '../shared/user';
 export class HomeComponent implements OnInit {
   user: User;
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
     private dbService: DatabaseService,
-    private lsService: LoginStateService
+    private authService: AuthenticationService
   ) { }
 
   ngOnInit() {
-    this.route.paramMap.pipe(
-      switchMap(params => {
-        return this.dbService.getOne(params.get('userName'));
-      })
-    ).subscribe((data) => {
+    this.dbService.getOne(localStorage.getItem('userName'))
+    .subscribe((data) => {
       this.user = new User(data);
       console.log(this.user);
     }, (err) => {
       console.log(err);
     });
 
-    this.router.events.subscribe((event: NavigationStart) => {
-      if (event.navigationTrigger === 'popstate') {
-        this.lsService.setState(false);
-      }
-    });
+    /*
+    Use this code to detect go back page event
+    this.router.events.subscribe((event: NavigationStart) => { if (event.navigationTrigger === 'popstate') {} });
+    */
   }
 
   logout() {
-    this.lsService.setState(false);
-    this.router.navigate(['login']);
+    this.authService.logout();
   }
 }

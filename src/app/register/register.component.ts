@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DatabaseService } from '../services/database.service';
+import { AuthenticationService } from '../services/authentication.service';
 import { ValidatorService } from '../services/validator.service';
-import { Router } from '@angular/router';
-import { LoginStateService } from '../services/login-state.service';
 
 @Component({
   selector: 'app-register',
@@ -30,8 +29,7 @@ export class RegisterComponent implements OnInit {
     private fb: FormBuilder,
     private validatorService: ValidatorService,
     private dbService: DatabaseService,
-    private router: Router,
-    private lsService: LoginStateService
+    private authService: AuthenticationService
   ) { }
 
   ngOnInit() {
@@ -43,9 +41,8 @@ export class RegisterComponent implements OnInit {
     this.loading = true;
     this.dbService.create(this.registrationForm.value).subscribe((res) => {
       console.log('Your account has been created.');
+      this.authService.login(this.userName.value);
       this.loading = false;
-      this.lsService.setState(true);
-      this.router.navigate(['home', this.userName.value]);
     }, (err) => {
       this.message = err;
       this.loading = false;

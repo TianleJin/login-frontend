@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { AuthenticationService } from '../services/authentication.service';
 import { DatabaseService } from '../services/database.service';
-import { LoginStateService } from '../services/login-state.service';
 
 @Component({
   selector: 'app-login',
@@ -21,29 +20,22 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dbService: DatabaseService,
-    private router: Router,
-    private lsService: LoginStateService
+    private authService: AuthenticationService
   ) { }
 
-  ngOnInit() {
-    // this.lsService.getState().subscribe((state) => console.log("Logged In: ", state));
-  }
-
+  ngOnInit() { }
+    
   onSubmit() {
     // Validate the username and password with the database
     // Redirect user to Homepage
     this.loading = true;
     this.dbService.getOne(this.userName.value).subscribe((user) => {
-      if (user === null) {
-        this.message = 'Username does not exist.';
-      }
-      else if (user['password'] !== this.password.value) {
+      if (user === null || user['password'] !== this.password.value) {
         this.message = 'Username or password is incorrect.';
       }
       else {
         console.log('Your login was successful.');
-        this.lsService.setState(true);
-        this.router.navigate(['home', this.userName.value]);
+        this.authService.login(this.userName.value);
       }
       this.loading = false;
     }, (err) => {
